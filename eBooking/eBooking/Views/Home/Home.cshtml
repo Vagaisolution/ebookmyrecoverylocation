@@ -1,0 +1,213 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<environment include="Development">
+    <link href="~/BS/css/pricing.css" rel="stylesheet" />
+</environment>
+
+<div id="mainPageDiv">
+    <div class="@*pricing-header px-3 py-3 pt-md-5 pb-md-4*@ pt-md-5 pb-md-4 mx-auto text-center">
+        @*pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center*@
+        <h1 class="display-4">Search By Geo Location</h1>
+        <div class="container-fluid">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 col-lg-4">
+                        <input type="text" class="form-control" placeholder="Search Locations" id="txtSrchLoc">
+                    </div>
+                    <div class="col-sm-12 col-md-2 col-lg-2">
+                        <input type="date" class="form-control" id="frmDate" placeholder="From Date">
+                    </div>
+                    <div class="col-sm-12 col-md-2 col-lg-2">
+                        <input type="date" class="form-control" id="toDate" placeholder="To Date">
+                    </div>
+                    <div class="form-inline col-sm-12 col-md-4 col-lg-4">
+                        <button class="btn btn-primary" onclick="fn_SrchMap()">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="map" style="height:500px">
+                <partial name="~/Views/Home/_Map.cshtml" />
+                @*<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3413.3521560682534!2d78.11010901433134!3d9.915912477198242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c580f3462f43%3A0x714c36154ce0775a!2sPeriyar!5e1!3m2!1sen!2sin!4v1592973242763!5m2!1sen!2sin" height="350" frameborder="0" style="border:0;width:100%" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>*@
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row row-cols-1 row-cols-md-2" id="divTblHospitalData"></div>
+    </div>
+</div>
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#mainParentDiv').removeClass('container');
+        var date = new Date();
+        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        var month = parseInt(parseInt(date.getMonth()) + 1).toString().length == 1 ? ("0" + parseInt(parseInt(date.getMonth()) + 1).toString()) : parseInt(parseInt(date.getMonth()) + 1).toString();
+        var currdate = date.getDate().toString().length == 1 ? ("0" + date.getDate().toString()) : date.getDate().toString();
+        var usDate = date.getFullYear() + "-" + month + "-" + currdate;
+        $("#frmDate,#toDate").val(usDate);
+        
+        //To Load map
+        //fn_loadMap();
+        //To load hospital Data
+        fn_loadhospData();
+
+    });
+    async function fn_Login() {
+        $.ajax({
+            type: 'GET',
+            url: '/Home/SignIn',
+            async: true,
+            cache: false,
+            global: false,
+            success: function (data) {
+                $('#exampleModal').empty().append(data);
+            }
+        });
+    }
+    function fn_loadRating(rating) {
+        var rethtml = '';
+        switch ($.trim(rating)) {
+            case '1':
+                rethtml = '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>';
+                break;
+            case '2':
+                rethtml = '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>';
+                break;
+            case '3':
+                rethtml = '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>';
+                break;
+            case '4':
+                rethtml += '<span class="fa fa-star checked" style="color: orange;"></span>' +
+                    '<span class="fa fa-star checked" style="color: orange;"></span>' +
+                    '<span class="fa fa-star checked" style="color: orange;"></span>' +
+                    '<span class="fa fa-star checked" style="color: orange;"></span>' +
+                    '<span class="fa fa-star"></span>';
+                break;
+            case '5':
+                rethtml = '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star" style="color: orange;"></span>' +
+                    '<span class="fa fa-star" style="color: orange;"></span>';
+                break;
+            default:
+                rethtml = '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>' +
+                    '<span class="fa fa-star"></span>';
+                break;
+        }
+        return $.trim(rethtml);
+    }
+    async function fn_loadhospData() {
+        $.ajax({
+            url: $.trim($('#mainParentDiv').attr('data-apiUrl')) + 'Hospital/List',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            async: true,
+            success: function (data) {
+                $('#divTblHospitalData').empty().append('');
+                var tbl = '';
+                $.each(data, function (i, value) {
+                    var serv = ''
+                    if (value.services != null) {
+                        $.each(value.services, function (j, ser) {
+                            serv += $.trim(ser) + ', ';
+                        });
+                        serv = $.trim(serv);
+                        serv = serv.substring(0, serv.length - 1);
+                    }
+                    tbl += '<div class="col mb-4" id=' + $.trim(value.id) + '>' +
+                        '<div class="card">' +
+                        '<div class="row no-gutters">' +
+                        '<div class="col-md-4">' +
+                        '<img src="wwwroot/Image/Hospital/hospital.jpg" class="img-fluid img-thumbnail" style="width:100%;height:100%" alt="...">' +
+                        '</div>' +
+                        '<div class="col-md-8">' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title text-center">' + $.trim(value.name) + '</h5>' +
+                        '<ul class="list-group list-group-flush text-center">' +
+                        '<li class="list-group-item">' + $.trim(serv) + '</li>' +
+                        '<li class="list-group-item"> Mobile Num : ' + $.trim(value.mob_Num) + '</li>' +
+                        '<li class="list-group-item"><span class="badge-pill badge-success">Available Bed : ' + $.trim(value.bed_ava) + '</span></li>' +
+                        '<li class="list-group-item"><span class="badge-pill badge-info">Occupied Bed : ' + $.trim(value.bed_occ) + '</span></li>' +
+                        '<li class="list-group-item" id="rating">' + fn_loadRating($.trim(value.rating)) + '</li>' +
+                        '<li class="list-group-item"><button class="btn btn-warning">Details</button> <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal" onclick="fn_Login();">Proceed Book</button></li>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                });
+                $('#divTblHospitalData').empty().append(tbl);
+            },
+            error: function (err) { }
+        });
+    }
+    async function fn_loadMap() {
+        $.ajax({
+            type: 'GET',
+            url: '/Home/GetMap',
+            async: true,
+            cache: false,
+            global: false,
+            success: function (data) {
+                $('#mainPageDiv #map').empty().append(data);
+            }
+        });
+    }
+    async function fn_SrchMap() {
+        if ($.trim($('#txtSrchLoc').val()) != '') {
+            var _lat, _long;
+            switch ($.trim($('#txtSrchLoc').val()).toUpperCase()) {
+                case 'CHENNAI':
+                    _lat = 13.082680;
+                    _long = 80.270721;
+                    break;
+                case "MADURAI":
+                    //_lat = 9.925201;
+                    //_long = 78.119774;
+                    _lat = 9.941566;
+                    _long = 78.128048;
+                    break;
+            }
+            map.setCenter(new google.maps.LatLng(_lat, _long));
+            var infoWindow = new google.maps.InfoWindow;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: _lat,
+                        lng: _long
+                    };
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent('Location Found.');
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+                }, function () {
+                    
+                });
+            }
+
+        }
+        else {
+            alert('Please Enter Address');
+        }
+    }
+</script>

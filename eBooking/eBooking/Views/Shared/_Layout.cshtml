@@ -1,0 +1,62 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - eBooking</title>
+
+
+    <environment include="Development">
+
+        <link href="~/BS/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/FontAwesome/all.css" rel="stylesheet" />
+        <script src="~/jquery/base/jquery-3.4.1.min.js"></script>
+        <script src="~/FontAwesome/all.js"></script>
+
+        
+    </environment>
+    
+    @*<environment exclude="Development"></environment>*@
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Home","Home")">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Map","Home")">Map View</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Update Profile</a>
+                </li>
+            </ul>
+            <div class="form-inline my-2 my-lg-0">
+                <a class="btn btn-success my-2 my-sm-0" style="display:none"><i class="fas fa-sign-in-alt"></i></a>
+            </div>
+        </div>
+    </nav>
+    <div id="mainParentDiv" class="container body-content" data-apiUrl="@Configuration["api_url"]">
+        @RenderBody()
+        @*<hr />
+            <footer>
+                <p>&copy; 2020 - eBooking</p>
+            </footer>*@
+    </div>
+
+    <environment include="Development">
+        <script src="~/BS/jquery/popper.min.js"></script>
+        <script src="~/BS/jquery/bootstrap.min.js"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

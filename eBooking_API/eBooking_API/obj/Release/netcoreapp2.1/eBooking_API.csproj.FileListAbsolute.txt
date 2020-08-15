@@ -1,0 +1,14 @@
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\bin\Release\netcoreapp2.1\eBooking_API.deps.json
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\bin\Release\netcoreapp2.1\eBooking_API.runtimeconfig.json
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\bin\Release\netcoreapp2.1\eBooking_API.runtimeconfig.dev.json
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\bin\Release\netcoreapp2.1\eBooking_API.dll
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\bin\Release\netcoreapp2.1\eBooking_API.pdb
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.csprojAssemblyReference.cache
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.csproj.CoreCompileInputs.cache
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.RazorAssemblyInfo.cache
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.RazorAssemblyInfo.cs
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.AssemblyInfoInputs.cache
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.AssemblyInfo.cs
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.RazorTargetAssemblyInfo.cache
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.dll
+F:\kanna_Projects\E-Hospital\eBooking_API\eBooking_API\obj\Release\netcoreapp2.1\eBooking_API.pdb

@@ -1,0 +1,48 @@
+[{
+  "_id": {
+    "$oid": "5eef6fd66fa82916483c6463"
+  },
+  "name": "GH Madurai",
+  "Mob_Num": "9999999999",
+  "bed_ava": "10",
+  "bed_occ": "10",
+  "services": [
+    "Lunch",
+    "Parking",
+    "Seperate Room for Visitor"
+  ],
+  "rating": 1,
+  "lat": "9.943450",
+  "lon": "78.127200"
+},{
+  "_id": {
+    "$oid": "5eef6fed6fa82916483c6464"
+  },
+  "name": "Karunya Hospital",
+  "Mob_Num": "9999999911",
+  "bed_ava": "05",
+  "bed_occ": "06",
+  "services": [
+    "Lunch",
+    "Parking"
+  ],
+  "rating": 2,
+  "lat": "9.942506",
+  "lon": "78.127435"
+},{
+  "_id": {
+    "$oid": "5ef4488ecf770c2390981073"
+  },
+  "name": "VadaMalayan Hospital",
+  "Mob_Num": "9003855661",
+  "bed_ava": "10",
+  "bed_occ": "02",
+  "services": [
+    "Lunch",
+    "Dinner",
+    "Parking"
+  ],
+  "rating": 4,
+  "lat": "9.942739",
+  "lon": "78.130001"
+}]

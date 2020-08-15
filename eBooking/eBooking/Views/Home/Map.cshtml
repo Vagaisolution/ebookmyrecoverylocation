@@ -1,0 +1,283 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    Layout = null;
+}
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>ArcGIS JavaScript Tutorials: Create a Starter App</title>
+
+    <style>
+
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+
+    <script src="https://js.arcgis.com/4.15/"></script>
+
+
+
+    <script>
+
+
+        require([
+
+            "esri/Map",
+
+            "esri/views/MapView",
+
+            "esri/widgets/Search",
+
+            "esri/Graphic",
+
+            "esri/layers/GraphicsLayer"
+
+        ], function (Map, MapView, Search, Graphic, GraphicsLayer) {
+
+
+
+
+
+            var map = new Map({
+
+                basemap: "streets-navigation-vector"
+
+            });
+
+            //streets-navigation-vector
+
+            var view = new MapView({
+
+                container: "viewDiv",
+
+                map: map,
+
+                center: [78.10895, 9.90512],
+
+                zoom: 17
+
+            });
+
+
+
+
+
+
+
+            // Search widget
+
+            var search = new Search({
+
+                view: view
+
+            });
+
+
+
+            view.ui.add(search, "top-right");
+
+            view.on("click", function (evt) {
+
+                search.clear();
+
+                view.popup.clear();
+
+                if (search.activeSource) {
+
+                    var geocoder = search.activeSource.locator; // World geocode service
+
+                    var params = {
+
+                        location: evt.mapPoint
+
+                    };
+
+                    geocoder.locationToAddress(params)
+
+                        .then(function (response) { // Show the address found
+
+                            var address = response.address;
+
+                            showPopup(address, evt.mapPoint);
+
+                        }, function (err) { // Show no address found
+
+                            showPopup("No address found.", evt.mapPoint);
+
+                        });
+
+                }
+
+            });
+
+            function showPopup(address, pt) {
+
+                view.popup.open({
+
+                    title: + Math.round(pt.longitude * 100000) / 100000 + "," + Math.round(pt.latitude * 100000) / 100000,
+
+                    content: address,
+
+                    location: pt
+
+                });
+
+            }
+
+
+
+
+
+            //Mark Place
+
+            var graphicsLayer = new GraphicsLayer();
+
+            map.add(graphicsLayer);
+
+            var point = {
+
+                type: "point",
+
+                longitude: 78.10895,
+
+                latitude: 9.90512
+
+            };
+
+
+
+            var simpleMarkerSymbol = {
+
+                type: "simple-marker",
+
+                color: [226, 119, 40],  // orange
+
+                outline: {
+
+                    color: [255, 255, 255], // white
+
+                    width: 1
+
+                }
+
+            };
+
+
+
+            //*** ADD ***//
+
+            // Create attributes
+
+            var attributes = {
+
+                Name: "My point",  // The name of the
+
+                Location: " Point Dume State Beach",  // The owner of the
+
+            };
+
+            // Create popup template
+
+            var popupTemplate = {
+
+                title: "{Name}",
+
+                content: "I am located at <b>{Location}</b>."
+
+            };
+
+
+
+            var pointGraphic = new Graphic({
+
+                geometry: point,
+
+                symbol: simpleMarkerSymbol,
+
+                //*** ADD ***//
+
+                attributes: attributes,
+
+                //popupTemplate: popupTemplate
+
+            });
+
+
+
+            graphicsLayer.add(pointGraphic);
+
+            //Mark place end
+            var point2 = {
+
+                type: "point",
+
+                longitude: 78.10968,
+
+                latitude: 9.90586
+
+            };
+            var simpleMarkerSymbol2 = {
+
+                type: "simple-marker",
+
+                color: [226, 119, 40],  // orange
+
+                outline: {
+
+                    color: [255, 255, 255], // white
+
+                    width: 1
+
+                }
+
+            };
+            var attributes_Hosp1 = {
+
+                Name: "Hosp1",  // The name of the
+
+                Location: "test hosp1",  // The owner of the
+
+            };
+
+            var pointGraphic_Hosp1 = new Graphic({
+
+                geometry: point2,
+
+                symbol: simpleMarkerSymbol2,
+
+                //*** ADD ***//
+
+                attributes: attributes_Hosp1,
+
+                //popupTemplate: popupTemplate
+
+            });
+
+            graphicsLayer.add(pointGraphic_Hosp1);
+
+        });
+
+    </script>
+
+</head>
+
+<body style="height:70%">
+
+    <div id="viewDiv"></div>
+    <a href="@Url.Action("Home","Home")">Back to Home</a>
+</body>
+
+</html>

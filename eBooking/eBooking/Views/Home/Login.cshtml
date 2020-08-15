@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<environment include="Development">
+    <link href="~/Logincss/signin.css" rel="stylesheet" />
+</environment>
+<div id="frmLogin" class="form-signin">
+    @Html.Hidden("RedirectTo", Url.Action("Home", "Home"))
+    <img class="mb-4" src="{{ site.baseurl }}/docs/{{ site.docs_version }}/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 text-center font-weight-normal">E-Booking Sign in</h1>
+    <input type="text" maxlength="10" pattern="[1-9]{1}[0-9]{9}" id="txtMobNum" class="form-control" placeholder="Enter Registered Mobile Number" autofocus>
+    <div id="txtMobNumVal" class="text-center invalid-feedback"></div>
+    <div class="checkbox mb-3"></div>
+    <button class="btn btn-lg btn btn-primary btn-block" id="btnSendOPT">Send OTP</button>
+    <div class="checkbox mb-3"></div>
+    <input type="text" id="txtOTP" class="form-control" placeholder="Enter OTP" hidden>
+    <div id="txtOTPVal" class="text-center invalid-feedback"></div>
+    <div class="checkbox mb-3"></div>
+    <button class="btn btn-lg btn-primary btn-block" id="btnSubmit" hidden>Submit</button>
+    <div class="checkbox mb-3"></div>
+    <div class="text-center">
+        <button id="btnCreateUser" class="btn btn-md btn-success" data-toggle="modal" data-target="#RegisterUserModal">Create Account</button>
+        <button class="btn btn-outline btn-md btn-warning">Forget Password</button>
+    </div>
+    <p class="mt-5 mb-3 text-center text-muted">&copy; @(DateTime.Now.Year)</p>
+    <div class="checkbox mb-3"></div>
+</div>
+<div class="modal fade" id="RegisterUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
+<environment include="Development">
+    <script src="~/jquery/Login/login.js"></script>
+</environment>
